@@ -1,8 +1,11 @@
 import java.util.Scanner;
+
 public class Main {
+    
     // useful constants
     private static final int MONTHS_IN_YEAR = 12;
     private static final int PERCENT = 100;
+    
     // min and max permitted values
     private static final int MAX_LOAN = 1_000_000; //GBP
     private static final int MIN_LOAN = 50_000;
@@ -10,6 +13,7 @@ public class Main {
     private static final int MIN_TERM = 5;
     private static final float MAX_RATE = 15f;
     private static final float MIN_RATE = 0.05f;
+    
     public static void main(String[] args) {
 
         //initialise variables
