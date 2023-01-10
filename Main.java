@@ -59,7 +59,7 @@ public class Main {
             String input = inputs.nextLine();
             try {
                 termYears = Integer.parseInt(input);
-                termMonths = termYears * 12;
+                termMonths = termYears * MONTHS_IN_YEAR;
             }
             catch (NumberFormatException e) {
                 System.out.println("Enter a whole number.");
