@@ -5,7 +5,6 @@ public class Main {
     // useful constants
     private static final int MONTHS_IN_YEAR = 12;
     private static final int PERCENT = 100;
-    
     // min and max permitted values
     private static final int MAX_LOAN = 1_000_000; //GBP
     private static final int MIN_LOAN = 50_000;
@@ -16,7 +15,8 @@ public class Main {
     
     public static void main(String[] args) {
 
-        //initialise variables
+        // initialise variables
+        
         float principal = 0;
         float yearlyRate = 0;
         float monthlyRate = 0;
@@ -25,7 +25,7 @@ public class Main {
 
         Scanner inputs = new Scanner(System.in);
 
-        // Enter & validate the loan amount
+        // Enter the loan amount ('Principal')
 
         while (principal < MIN_LOAN | principal > MAX_LOAN) {
             System.out.println("Enter Loan Amount between £50,000 - £1,000,000 : ");
@@ -34,11 +34,11 @@ public class Main {
                 principal = Integer.parseInt(input);
             }
             catch (NumberFormatException e) {
-                System.out.println("Enter a whole Number");
+                System.out.print("Enter a whole Number");
             }
         }
 
-        // Enter & validate the interest rates
+        // Enter the yearly interest rate
 
         while (yearlyRate < MIN_RATE | yearlyRate > MAX_RATE){
             System.out.println("Enter Annual Interest Rate between 0.05% and 15.00%: ");
@@ -48,35 +48,41 @@ public class Main {
                 monthlyRate = yearlyRate / (MONTHS_IN_YEAR * PERCENT);
             }
             catch (NumberFormatException e) {
-                System.out.println("Enter a number with 2 decimal places");
+                System.out.print("Enter a number with 2 decimal places");
             }
         }
 
-        // Enter & validate the term of the loan
+        // Enter the term of the loan (years)
 
         while (termYears < MIN_TERM | termYears > MAX_TERM){
             System.out.println("Enter the term of the loan (5 - 35 Years Inclusive).: ");
             String input = inputs.nextLine();
             try {
                 termYears = Integer.parseInt(input);
-                termMonths = termYears * MONTHS_IN_YEAR;
+                termMonths = termYears * 12;
             }
             catch (NumberFormatException e) {
-                System.out.println("Enter a whole number.");
+                System.out.print("Enter a whole number.");
             }
         }
 
-        String monthlyRepayment = calculateMonthlyPayment(monthlyRate, termMonths, principal);
-        System.out.println("Monthly repayment = " + monthlyRepayment);
+        double monthlyRepayment = calculateMonthlyPayment(monthlyRate, termMonths, principal);
+        double totalCostLoan = calculateTotalPayment(monthlyRepayment, termYears);
+        System.out.println("Monthly repayment = £" + String.format("%.2f", monthlyRepayment));
+        System.out.println("Total Cost of Loan = £" + String.format("%.2f", totalCostLoan));
+        
     }
-    
-    // helper function, calculate monthly repayment
-    
-    private static String calculateMonthlyPayment(float mRate, float mTerm, float amount ){
+
+
+    private static double calculateMonthlyPayment(float mRate, float mTerm, float amount ){
         double compoundRate = Math.pow((1+mRate), mTerm);
         double monthlyRepayment = amount * mRate * compoundRate / (compoundRate - 1);
-        String outputFormatted = "£" + String.format("%.2f", monthlyRepayment);
-        return outputFormatted;
-        }
+        return monthlyRepayment;
+    }
+
+    private static double calculateTotalPayment(double monthlyPayment, int termInYears){
+        double totalPayment = monthlyPayment * MONTHS_IN_YEAR * termInYears;
+        return totalPayment;
+    }
 
 }
